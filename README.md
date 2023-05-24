@@ -13,6 +13,7 @@ Any attempt to apply these concepts or functionalities in real-world scenarios s
 Please use this project responsibly and within the boundaries of legal and ethical guidelines.
 
 Database Statement
+
 The Invader multi-level marketing company, with its video game distribution platform, allows users to log in to upload all their sales. To do this, they need to provide their email, username, and password. If not registered, users can sign up by entering their personal information, such as email, full name, residential address, identification number, contact number. Additionally, they can affiliate registered users using a code provided by the user being affiliated. There is no maximum limit on the number of users that can be affiliated with a user. For every sale made by the affiliated users, the affiliate earns a 5% commission. The commission percentage varies depending on the user's level. If a user disassociates from the company, their affiliated users are assigned to the user who is considered their affiliate.
 
 The user's level varies depending on the number of sales made and the number of affiliates. If the number of affiliated users is more than 50 and their sales increase to exceed 350 video games, the user will level up. Each time these conditions are met, the commission increases by 2%, but it cannot exceed level 5.
@@ -24,14 +25,17 @@ The company offers a wallet feature where users can deposit or withdraw money as
 It is necessary to store the data of the video games, which is convenient for searching on the platform. Therefore, it is important to consider the code, name, categories, game developer company, game price, list of distribution codes, and quantity of units sold. All this data should be properly normalized to maintain data integrity.
 
 Imports and Driver
+
 The code uses the JDBC driver, which can be found on the Oracle official website.
 
 Script
+
 The script DLL of the database is made in OracleDB. Feel free to make any changes you want.
 
 ESPAÑOL:
 
 Descripción del Proyecto
+
 Este proyecto incorpora un contexto de marketing multinivel con fines educativos y de estudio. Es importante destacar que este contexto es puramente hipotético y no respalda ni promueve actividades reales de marketing multinivel.
 
 No asumo ninguna responsabilidad por un mal uso o una interpretación errónea de los conceptos o funcionalidades presentados en este proyecto. La inclusión de elementos de marketing multinivel tiene como único objetivo la exploración académica y comprensión de los conceptos relacionados.
@@ -41,6 +45,7 @@ Cualquier intento de aplicar estos conceptos o funcionalidades en escenarios del
 Utilice este proyecto de manera responsable y dentro de los límites de las pautas legales y éticas.
 
 Declaración de la Base de Datos
+
 La empresa multinivel Invader, con su plataforma de distribución de videojuegos, permite a los usuarios iniciar sesión para cargar todas sus ventas realizadas. Para ello, es necesario proporcionar su correo electrónico, nombre de usuario y contraseña. En caso de no estar registrado, los usuarios pueden registrarse ingresando su información personal, como correo electrónico, nombre completo, dirección residencial, número de identificación y número de contacto. Además, pueden afiliar a usuarios registrados mediante un código proporcionado por el usuario que desea afiliar. No hay un límite máximo en la cantidad de usuarios que pueden ser afiliados a un usuario. Por cada venta realizada por los usuarios afiliados, el afiliador obtiene una comisión del 5% de la misma. El porcentaje de comisión varía según el nivel del usuario. En caso de que un usuario se desvincule de la empresa, sus usuarios afiliados se asignan al usuario que se considera su afiliado.
 
 El nivel del usuario varía según la cantidad de ventas realizadas y la cantidad de afiliados. Si la cantidad de usuarios afiliados es superior a 50 y sus ventas aumentan superando los 350 videojuegos, el usuario subirá de nivel. Cada vez que se cumplan estas condiciones, la comisión aumentará un 2%, pero no podrá superar el nivel 5.
@@ -52,7 +57,9 @@ La empresa ofrece una función de billetera donde los usuarios pueden depositar 
 Es necesario almacenar los datos de los videojuegos, lo cual es conveniente para la búsqueda en la plataforma. Por lo tanto, es importante tener en cuenta el código, nombre, categorías, empresa desarrolladora del videojuego, precio del videojuego, lista de códigos de distribución y cantidad de unidades vendidas. Todos estos datos deben estar debidamente normalizados para mantener la integridad de la información.
 
 Importaciones y Controlador de la Base de Datos
+
 El código utiliza el controlador JDBC que se puede encontrar en el sitio web oficial de Oracle.
 
 Script
+
 El script DLL de la base de datos está hecho en OracleDB, siéntase libre de realizar los cambios que desee.
