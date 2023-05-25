@@ -1,5 +1,6 @@
 package controller;
 
+import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -10,6 +11,7 @@ import javafx.scene.layout.Pane;
 import model.*;
 
 public class AllController {
+	Main main;
 	 @FXML
 	    private ComboBox<Ciudad> cmbCiudadRegistro;
 
@@ -76,5 +78,10 @@ public class AllController {
 	    void iniciarSesionCompletoBTN(ActionEvent event) {
 
 	    }
+
+		public void setAplicacion(Main main) {
+			this.main = main;
+
+		}
 
 }
