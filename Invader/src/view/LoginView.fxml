@@ -37,7 +37,7 @@
             </Pane>
             <Pane layoutX="-101.0" layoutY="479.0" prefHeight="455.0" prefWidth="679.0" style="-fx-rotate: 20; -fx-background-color: #021D29;">
                <children>
-                  <Button layoutX="205.0" layoutY="121.0" mnemonicParsing="false" onAction="#RegistroBTN" prefHeight="32.0" prefWidth="207.0" style="-fx-rotate: -20; -fx-background-color: #0E5573;" text="REGISTRARSE" textFill="#c9daf8">
+                  <Button fx:id="registrarseBoton" layoutX="205.0" layoutY="121.0" mnemonicParsing="false" onAction="#RegistroBTN" prefHeight="32.0" prefWidth="207.0" style="-fx-rotate: -20; -fx-background-color: #0E5573;" text="REGISTRARSE" textFill="#c9daf8">
                      <font>
                         <Font name="Wingdings" size="20.0" />
                      </font>
@@ -45,7 +45,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button disable="true" layoutX="235.0" layoutY="203.0" mnemonicParsing="false" onAction="#LoginBTN" prefHeight="32.0" prefWidth="207.0" style="-fx-rotate: -20; -fx-background-color: #0E5573;" text="LOGIN" textFill="#c9daf8">
+                  <Button fx:id="loginBoton" disable="true" layoutX="235.0" layoutY="203.0" mnemonicParsing="false" onAction="#LoginBTN" prefHeight="32.0" prefWidth="207.0" style="-fx-rotate: -20; -fx-background-color: #0E5573;" text="LOGIN" textFill="#c9daf8">
                      <font>
                         <Font name="Wingdings" size="20.0" />
                      </font>
@@ -101,10 +101,6 @@
                   </Label>
                </children>
             </Pane>
-            <Button layoutX="703.0" layoutY="14.0" mnemonicParsing="false" onAction="#exit" prefHeight="36.0" prefWidth="27.0" style="-fx-background-color: RED;" text="X" textFill="WHITE">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
          </children>
       </Pane>
       <Pane fx:id="registroPane" layoutX="457.0" prefHeight="863.0" prefWidth="745.0" style="-fx-background-color: #283439;" visible="false">
@@ -209,5 +205,10 @@
             </Pane>
          </children>
       </Pane>
+      <Button layoutX="1160.0" layoutY="6.0" mnemonicParsing="false" onAction="#exit" prefHeight="36.0" prefWidth="33.0" style="-fx-background-color: RED;" text="X" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

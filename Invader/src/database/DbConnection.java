@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbConnection {
-	Connection connection;
-	public Connection connect(){
+	static Connection connection;
+	public static Connection connect(){
 		String jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/xe"; // URL de conexion de Oracle
         String username = "PROYECTOFINAL"; //Nombre de usuario
         String password = "123"; //Contrasenia del usuario
