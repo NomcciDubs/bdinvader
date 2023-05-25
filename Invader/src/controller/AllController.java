@@ -21,6 +21,9 @@ import model.*;
 public class AllController {
 	Main main;
 	ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+	ArrayList<Ciudad> listaCiudades = new ArrayList<>();
+
+	Connection connection;
 	 @FXML
 	    private ComboBox<Ciudad> cmbCiudadRegistro;
 
@@ -29,6 +32,9 @@ public class AllController {
 
 	    @FXML
 	    private Label lblErrorRegistro;
+
+	    @FXML
+	    private TextField txtNombreRegistro;
 
 	    @FXML
 	    private Pane loginPane;
@@ -79,6 +85,36 @@ public class AllController {
 
 	    @FXML
 	    void RegistrarseCompletoBTN(ActionEvent event) {
+	    	String correo, usuario, contrasenia, cedula, direccion, telefono, nombre;
+	    	int afiliado, idciudad;
+	    	boolean error = false;
+	    	correo = txtCorreoRegistro.getText();
+	    	usuario = txtUsuarioRegistro.getText();
+	    	contrasenia = txtContraseniaRegistro.getText();
+	    	cedula = txtCedulaRegistro.getText();
+	    	nombre = txtNombreRegistro.getText();
+	    	afiliado = Integer.valueOf(txtAfiliadoRegistro.getText());
+	    	direccion = txtDireccionRegistro.getText();
+	    	telefono = txtTelefonoRegistro.getText();
+	    	idciudad = cmbCiudadRegistro.getValue().getIdCiudad();
+
+	    	String sql = "insert into usuario (cedula, nombreusuario, codigoafliacion, nombre, correo, contrasenia, direccion, numerotelefonico, ciudad_idciudad, estado)"
+	    			+ " values ("+cedula+",'"+usuario+"',"+afiliado+",'"+nombre+"','"+correo+"','"+contrasenia+"','"+direccion+"','"+telefono+"',"+idciudad+",'ACTIVO')";
+
+	    	try {
+				PreparedStatement pstmt  = connection.prepareStatement(sql);
+				pstmt.execute();
+			} catch (SQLException e) {
+				lblErrorRegistro.setText(e.getLocalizedMessage());
+				error=true;
+			}
+	    	if(!error){
+	    		loginPane.setVisible(true);
+		    	registroPane.setVisible(false);
+		    	loginBoton.setDisable(true);
+		    	registrarseBoton.setDisable(false);
+	    	}
+
 
 	    }
 
@@ -113,18 +149,44 @@ public class AllController {
 
 		 @FXML
 		    void initialize() {
-			 Connection connection = DbConnection.connect();
-			 llenarUsuarios(connection);
+			 connection = DbConnection.connect();
+
+			 llenarUsuarios();
+
+			 llenarCiudades();
+
+			 cmbCiudadRegistro.getItems().addAll(listaCiudades);
 		    }
 
-		private void llenarUsuarios(Connection con) {
+
+		private void llenarCiudades() {
+			ResultSet rs;
+			PreparedStatement ps;
+			String sql = "select idciudad, nombreciudad, departamento_iddepartamento from ciudad";
+
+			try {
+				ps = connection.prepareStatement(sql);
+				rs = ps.executeQuery();
+				while(rs.next()){
+					Ciudad ciudad = new Ciudad(rs.getInt("idciudad"), rs.getInt("departamento_iddepartamento"), rs.getString("nombreciudad"));
+					listaCiudades.add(ciudad);
+				}
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+		}
+
+		private void llenarUsuarios() {
 
 			ResultSet rs;
 			PreparedStatement ps;
-			ArrayList<Usuario> lista = new ArrayList<>();
 			String sql = "select cedula, nombreusuario, codigoafliacion, nombre, correo, contrasenia, direccion, numerotelefonico, ciudad_idciudad, estado from usuario";
 			try {
-				ps = con.prepareStatement(sql);
+				ps = connection.prepareStatement(sql);
 				rs = ps.executeQuery();
 				while(rs.next()){
 					Usuario usuario = new Usuario(rs.getInt("cedula"), rs.getInt("codigoafliacion"), rs.getInt("ciudad_idciudad"), rs.getString("nombreusuario"),
@@ -133,6 +195,7 @@ public class AllController {
 
 					listaUsuarios.add(usuario);
 				}
+				ps.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

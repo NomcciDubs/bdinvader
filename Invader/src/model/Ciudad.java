@@ -27,5 +27,9 @@ public class Ciudad {
 		this.id_departamento = id_departamento;
 		this.nombreCiudad = nombreCiudad;
 	}
+	@Override
+	public String toString() {
+		return  nombreCiudad;
+	}
 
 }

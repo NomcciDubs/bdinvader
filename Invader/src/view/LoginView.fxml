@@ -105,7 +105,7 @@
       </Pane>
       <Pane fx:id="registroPane" layoutX="457.0" prefHeight="863.0" prefWidth="745.0" style="-fx-background-color: #283439;" visible="false">
          <children>
-            <Pane layoutX="53.0" layoutY="188.0" prefHeight="488.0" prefWidth="639.0" style="-fx-background-color: GRAY; -fx-background-radius: 40px;">
+            <Pane layoutX="53.0" layoutY="188.0" prefHeight="550.0" prefWidth="639.0" style="-fx-background-color: GRAY; -fx-background-radius: 40px;">
                <children>
                   <Pane layoutX="-17.0" layoutY="-16.0" prefHeight="99.0" prefWidth="674.0" style="-fx-background-color: #0E5573; -fx-background-radius: 40px;">
                      <children>
@@ -132,7 +132,7 @@
                      </font>
                   </Label>
                   <PasswordField fx:id="txtContraseniaRegistro" layoutX="26.0" layoutY="226.0" prefHeight="36.0" prefWidth="176.0" />
-                  <Button layoutX="220.0" layoutY="391.0" mnemonicParsing="false" onAction="#RegistrarseCompletoBTN" prefHeight="32.0" prefWidth="207.0" style="-fx-background-color: #0E5573;" text="Registrarse" textFill="#c9daf8">
+                  <Button layoutX="220.0" layoutY="467.0" mnemonicParsing="false" onAction="#RegistrarseCompletoBTN" prefHeight="32.0" prefWidth="207.0" style="-fx-background-color: #0E5573;" text="Registrarse" textFill="#c9daf8">
                      <font>
                         <Font name="Wingdings" size="20.0" />
                      </font>
@@ -196,11 +196,21 @@
                      </font>
                   </Label>
                   <ComboBox fx:id="cmbCiudadRegistro" layoutX="451.0" layoutY="328.0" prefHeight="35.0" prefWidth="165.0" />
-                  <Label fx:id="lblErrorRegistro" layoutX="33.0" layoutY="429.0" textFill="#c30202">
+                  <Label fx:id="lblErrorRegistro" layoutX="24.0" layoutY="507.0" prefHeight="29.0" prefWidth="599.0" textFill="#c30202">
+                     <font>
+                        <Font name="Wingdings" size="22.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="273.0" layoutY="363.0" text="Nombre" textFill="WHITE">
                      <font>
                         <Font name="Wingdings" size="29.0" />
                      </font>
                   </Label>
+                  <TextField fx:id="txtNombreRegistro" layoutX="26.0" layoutY="405.0" prefHeight="35.0" prefWidth="590.0">
+                     <font>
+                        <Font name="Wingdings" size="18.0" />
+                     </font>
+                  </TextField>
                </children>
             </Pane>
          </children>
