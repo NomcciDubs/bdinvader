@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DbConnection {
 	Connection connection;
-	public void connect(){
+	public Connection connect(){
 		String jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/xe"; // URL de conexion de Oracle
         String username = "PROYECTOFINAL"; //Nombre de usuario
         String password = "123"; //Contrasenia del usuario
@@ -20,12 +20,6 @@ public class DbConnection {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-	}
-	public void close(){
-        try {
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		return connection;
 	}
 }
