@@ -94,7 +94,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Label fx:id="lblErrorLogin" layoutX="42.0" layoutY="438.0" prefHeight="36.0" prefWidth="87.0" textFill="#c30202">
+                  <Label fx:id="lblErrorLogin" layoutX="42.0" layoutY="438.0" prefHeight="36.0" prefWidth="579.0" textFill="#c30202">
                      <font>
                         <Font name="Wingdings" size="29.0" />
                      </font>

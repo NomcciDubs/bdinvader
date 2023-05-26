@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
 	private static Stage stg;
+	AllController allController;
 
 	/**
 	 *Inicia el codigo abriendo la aplicacion, se asigna el path del View login para este ser el primer abierto.
@@ -41,7 +42,7 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("/view/LoginView.fxml"));
 			AnchorPane rootLayout = (AnchorPane)loader.load();
-			AllController allController = loader.getController();
+			allController = loader.getController();
 			allController.setAplicacion(this);
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);

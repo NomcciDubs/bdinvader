@@ -1,8 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="controller.AllController">
+   <children>
+      <Pane prefHeight="863.0" prefWidth="450.0" style="-fx-background-color: #0E5573;">
+         <children>
+            <Label layoutX="58.0" layoutY="70.0" text="BIENVENIDOS A" textFill="#c9daf8">
+               <font>
+                  <Font name="Wingdings" size="43.0" />
+               </font>
+            </Label>
+            <Label layoutX="125.0" layoutY="331.0" text="INVADER" textFill="#c9daf8">
+               <font>
+                  <Font name="Wingdings" size="43.0" />
+               </font>
+            </Label>
+            <Pane layoutX="116.0" layoutY="130.0" prefHeight="187.0" prefWidth="195.0" style="-fx-background-radius: 20px; -fx-border-radius: 150px; -fx-border-width: 20px; -fx-border-color: WHITE;">
+               <children>
+                  <ImageView fitHeight="131.0" fitWidth="126.0" layoutX="22.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/Logo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane layoutX="-101.0" layoutY="479.0" prefHeight="455.0" prefWidth="679.0" style="-fx-rotate: 20; -fx-background-color: #021D29;">
+               <children>
+                  <Button fx:id="pantallaEliminarUsuarioBoton" disable="true" layoutX="204.0" layoutY="112.0" mnemonicParsing="false" onAction="#cambiarEliminarUsuario" prefHeight="32.0" prefWidth="207.0" style="-fx-rotate: -20; -fx-background-color: #0E5573;" text="Eliminar usuario" textFill="#c9daf8">
+                     <font>
+                        <Font name="Wingdings" size="20.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="pantallaCalcularNivelBoton" layoutX="238.0" layoutY="190.0" mnemonicParsing="false" onAction="#cambiarCalcularNivel" prefHeight="32.0" prefWidth="207.0" style="-fx-rotate: -20; -fx-background-color: #0E5573;" text="Calcular nivel" textFill="#c9daf8">
+                     <font>
+                        <Font name="Wingdings" size="20.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <Pane fx:id="paneUsuariosLista" layoutX="454.0" prefHeight="863.0" prefWidth="747.0" style="-fx-background-color: #283439;">
+         <children>
+            <Pane layoutX="48.0" layoutY="14.0" prefHeight="91.0" prefWidth="653.0" style="-fx-background-color: #0E5573; -fx-background-radius: 40px;">
+               <children>
+                  <Label layoutX="123.0" layoutY="19.0" text="USUARIOS" textFill="WHITE">
+                     <font>
+                        <Font name="Wingdings" size="43.0" />
+                     </font>
+                  </Label>
+                  <CheckBox fx:id="usuarioInactivoCheck" layoutX="386.0" layoutY="19.0" mnemonicParsing="false" onAction="#ctnUsuarioInactivoCheck" text="Ver usuarios eliminados" textFill="WHITE">
+                     <font>
+                        <Font name="Wingdings" size="14.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox fx:id="usuarioActivoCheck" layoutX="386.0" layoutY="53.0" mnemonicParsing="false" onAction="#ctnUsuarioActivoCheck" text="Ver usuarios activos" textFill="WHITE">
+                     <font>
+                        <Font name="Wingdings" size="14.0" />
+                     </font>
+                  </CheckBox>
+               </children>
+            </Pane>
+            <Button fx:id="eliminarUsuarioBoton" disable="true" layoutX="504.0" layoutY="797.0" mnemonicParsing="false" onAction="#eliminarUsuario" prefHeight="32.0" prefWidth="207.0" style="-fx-background-color: #0E5573;" text="Eliminar" textFill="#c9daf8" visible="false">
+               <font>
+                  <Font name="Wingdings" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="activarUsuarioBoton" disable="true" layoutX="37.0" layoutY="797.0" mnemonicParsing="false" onAction="#activarUsuario" prefHeight="32.0" prefWidth="207.0" style="-fx-background-color: #0E5573;" text="Activar" textFill="#c9daf8" visible="false">
+               <font>
+                  <Font name="Wingdings" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <TableView fx:id="tablaUsuarios" blendMode="OVERLAY" layoutX="20.0" layoutY="121.0" prefHeight="638.0" prefWidth="708.0">
+              <columns>
+                <TableColumn fx:id="cedulaTab" prefWidth="75.0" text="Cedula" />
+                <TableColumn fx:id="usuarioTab" prefWidth="75.0" text="Usuario" />
+                  <TableColumn fx:id="afiliadoTab" prefWidth="75.0" text="Afiliado" />
+                  <TableColumn fx:id="nombreTab" prefWidth="116.0" text="Nombre" />
+                  <TableColumn fx:id="correoTab" prefWidth="106.0" text="Correo" />
+                  <TableColumn fx:id="direccionTab" prefWidth="112.0" text="Direccion" />
+                  <TableColumn fx:id="telefonoTab" prefWidth="67.0" text="Telefono" />
+                  <TableColumn fx:id="estadoTab" prefWidth="81.0" text="Estado" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane fx:id="paneCalcularNivel" layoutX="454.0" prefHeight="863.0" prefWidth="747.0" style="-fx-background-color: #283439;" visible="false">
+         <children>
+            <Pane layoutX="48.0" layoutY="14.0" prefHeight="91.0" prefWidth="653.0" style="-fx-background-color: #0E5573; -fx-background-radius: 40px;">
+               <children>
+                  <Label layoutX="161.0" layoutY="19.0" text="CALCULAR NIVEL" textFill="WHITE">
+                     <font>
+                        <Font name="Wingdings" size="43.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Label layoutX="53.0" layoutY="247.0" text="INSERTE EL ID DEL USUARIO A CALCULAR:" textFill="WHITE">
+               <font>
+                  <Font name="Wingdings" size="33.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtIdUsuarioCalcular" layoutX="179.0" layoutY="302.0" prefHeight="36.0" prefWidth="389.0">
+               <font>
+                  <Font name="Wingdings" size="18.0" />
+               </font>
+            </TextField>
+            <Pane fx:id="paneNivelVisible" layoutX="47.0" layoutY="432.0" prefHeight="200.0" prefWidth="653.0" style="-fx-background-color: GRAY; -fx-background-radius: 40px;" visible="false">
+               <children>
+                  <Label layoutX="26.0" layoutY="29.0" text="El nivel del usuario ha sido calculado:" textFill="WHITE">
+                     <font>
+                        <Font name="Wingdings" size="33.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelNivel" contentDisplay="CENTER" layoutX="303.0" layoutY="82.0" prefHeight="83.0" prefWidth="47.0" text="0" textFill="#0e5573">
+                     <font>
+                        <Font name="Wingdings" size="50.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Button layoutX="270.0" layoutY="355.0" mnemonicParsing="false" onAction="#calcularNivel" prefHeight="32.0" prefWidth="207.0" style="-fx-background-color: #0E5573;" text="CALCULAR" textFill="#c9daf8">
+               <font>
+                  <Font name="Wingdings" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label fx:id="labelErrorCalcularNivel" layoutX="68.0" layoutY="728.0" prefHeight="17.0" prefWidth="624.0" textFill="#b50808">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Button layoutX="1160.0" layoutY="6.0" mnemonicParsing="false" onAction="#exit2" prefHeight="36.0" prefWidth="33.0" style="-fx-background-color: RED;" text="X" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
 </AnchorPane>
-
