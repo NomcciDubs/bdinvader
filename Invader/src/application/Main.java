@@ -5,8 +5,11 @@ import java.io.IOException;
 import controller.AllController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Usuario;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,6 +28,7 @@ import javafx.scene.layout.BorderPane;
 public class Main extends Application {
 	private static Stage stg;
 	AllController allController;
+	Usuario usuarioLoggeado;
 
 	/**
 	 *Inicia el codigo abriendo la aplicacion, se asigna el path del View login para este ser el primer abierto.
@@ -58,9 +62,19 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	public void setUsuario(Usuario log){
+		this.usuarioLoggeado = log;
+	}
+	public Usuario getUsuario(){
+		return this.usuarioLoggeado;
+	}
 	public void changeScene(String fxml) throws IOException{
-		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource(fxml));
+		Parent pane = loader.load();
 		stg.getScene().setRoot(pane);
+		allController = loader.getController();
+		allController.setAplicacion(this);
 
 	}
 	public void close(){

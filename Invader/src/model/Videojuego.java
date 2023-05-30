@@ -57,6 +57,10 @@ public class Videojuego {
 		this.descripcion = descripcion;
 		this.precio = precio;
 	}
+	@Override
+	public String toString() {
+		return nombre;
+	}
 
 
 }

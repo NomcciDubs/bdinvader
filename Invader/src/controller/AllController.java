@@ -1,10 +1,12 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import application.Main;
@@ -12,6 +14,7 @@ import database.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -22,20 +25,32 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.*;
 
 public class AllController {
-	Main main;
+	/**
+	 * Creacion de variables
+	 */
+	Main main; //Es la variable que se utiliza para llamar los metodos de main
 	ArrayList<Usuario> listaUsuarios = new ArrayList<>();
 	ArrayList<Ciudad> listaCiudades = new ArrayList<>();
-
-	ObservableList<Usuario> listaUsuariosFX = FXCollections.observableArrayList();
+	ArrayList<Banco> listaBancos = new ArrayList<>();
+	ArrayList<Videojuego> listaVideojuegos = new ArrayList<>();
+	ArrayList<Billetera> listaBilleteras = new ArrayList<>();
+	ObservableList<Usuario> listaUsuariosFX = FXCollections.observableArrayList(); //Para llenar tablas se utilizan ObservableList
 	Usuario usuarioLoggeado;
 	Usuario usuarioSeleccionado;
+	Billetera billeteraUsuario;
 
-	Connection connection;
+
+	Connection connection;//La conexion de la base de datos
+
+	/**
+	 * Variables declaradas por JAVAFX
+	 */
 	 @FXML
 	    private ComboBox<Ciudad> cmbCiudadRegistro;
 
@@ -151,6 +166,121 @@ public class AllController {
 	    private Pane paneCalcularNivel;
 
 	    @FXML
+	    private ComboBox<Banco> bancoCmBx;
+
+	    @FXML
+	    private TextField cantidadVentaTxt;
+
+	    @FXML
+	    private TextField codigoVentaTxt;
+
+
+	    @FXML
+	    private Label lblErrorRetirar;
+
+	    @FXML
+	    private Label lblErrorVender;
+
+	    @FXML
+	    private Button retirarBoton;
+
+	    @FXML
+	    private Pane retirarPane;
+
+	    @FXML
+	    private Label saldoLabel;
+
+	    @FXML
+	    private TextField txtCantidadRetirar;
+
+	    @FXML
+	    private Button venderBoton;
+
+	    @FXML
+	    private Pane venderJuegoPane;
+
+	    @FXML
+	    private ComboBox<Videojuego> videojuegoVenderCmBx;
+
+	    @FXML
+	    void retirarCambiar(ActionEvent event) {
+	    	usuarioLoggeado=main.getUsuario();
+	    	llenarBilletera();
+	    	retirarPane.setVisible(true);
+	    	venderJuegoPane.setVisible(false);
+	    	retirarBoton.setDisable(true);
+	    	venderBoton.setDisable(false);
+	    	for (int i = 0; i < listaBilleteras.size(); i++) {
+				if (listaBilleteras.get(i).getUsuario_cedula()== usuarioLoggeado.getCedula()){
+					saldoLabel.setText(String.valueOf(listaBilleteras.get(i).getSaldo()));
+					billeteraUsuario = listaBilleteras.get(i);
+				}
+			}
+
+	    }
+
+	    @FXML
+	    void retirarDinero(ActionEvent event) {
+	    	if(!txtCantidadRetirar.getText().isEmpty()){
+	    		float retirar = Float.valueOf(txtCantidadRetirar.getText());
+	    		String sql = "";
+	    		if(retirar < billeteraUsuario.getSaldo()){
+	    			sql = "UPDATE billetera set saldo = "+(billeteraUsuario.getSaldo()-retirar)+" where usuario_cedula = "+usuarioLoggeado.getCedula();
+	    			try {
+						PreparedStatement pstmt  = connection.prepareStatement(sql);
+						pstmt.execute();
+						pstmt.close();
+						llenarBilletera();
+						for (int i = 0; i < listaBilleteras.size(); i++) {
+							if (listaBilleteras.get(i).getUsuario_cedula()== usuarioLoggeado.getCedula()){
+								saldoLabel.setText(String.valueOf(listaBilleteras.get(i).getSaldo()));
+								billeteraUsuario = listaBilleteras.get(i);
+							}
+						}
+						lblErrorRetirar.setText("");
+						saldoLabel.setText(String.valueOf(billeteraUsuario.getSaldo()));
+					} catch (SQLException e) {
+						lblErrorRetirar.setText(e.getLocalizedMessage());
+					}
+	    		}else{
+	    			lblErrorRetirar.setText("El valor que intenta retirar es mayor al saldo");
+	    		}
+
+
+	    	}
+	    }
+
+	    @FXML
+	    void venderJuego(ActionEvent event) {
+	    	usuarioLoggeado = main.getUsuario();
+	    	String sql = "BEGIN ? := REGISTRAR_VENTA(?, ?, ?, ?); END;";
+	    	try {
+	    	  CallableStatement cstmt = connection.prepareCall(sql);
+	    	  cstmt.registerOutParameter(1, Types.INTEGER);
+	    	  cstmt.setInt(2, usuarioLoggeado.getCedula());
+	    	  cstmt.setInt(3, videojuegoVenderCmBx.getValue().getCodigo());
+	    	  cstmt.setInt(4, Integer.parseInt(cantidadVentaTxt.getText()));
+	    	  cstmt.setInt(5, Integer.parseInt(codigoVentaTxt.getText()));
+	    	  cstmt.execute();
+
+	    	  int resultado = cstmt.getInt(1); // Obtener el resultado de la funcion
+
+	    	  cstmt.close();
+	    	  lblErrorVender.setText(String.valueOf(resultado));
+	    	} catch (SQLException e) {
+	    	  e.printStackTrace();
+	    	}
+	    }
+
+	    @FXML
+	    void venderPantalla(ActionEvent event) {
+	    	retirarPane.setVisible(false);
+	    	venderJuegoPane.setVisible(true);
+	    	retirarBoton.setDisable(false);
+	    	venderBoton.setDisable(true);
+	    }
+
+	    @FXML
 	    void activarUsuario(ActionEvent event) {
 	    	String sql = "UPDATE Usuario set estado = 'ACTIVO' where CEDULA = "+usuarioSeleccionado.getCedula();
 
@@ -162,6 +292,20 @@ public class AllController {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+	    }
+
+	    @FXML
+	    void actualizarBancos(Event event) {
+
+	    	llenarBanco();
+	    	bancoCmBx.getItems().addAll(listaBancos);
+
+	    }
+	    @FXML
+	    void actualizarJuegos(Event event) {
+			llenarVideojuego();
+	    	videojuegoVenderCmBx.getItems().addAll(listaVideojuegos);
+
 	    }
 
 	    @FXML
@@ -305,6 +449,7 @@ public class AllController {
 			} catch (SQLException e) {
 				lblErrorRegistro.setText(e.getLocalizedMessage());
 				error=true;
+				e.printStackTrace();
 			}
 	    	if(!error){
 	    		loginPane.setVisible(true);
@@ -325,15 +470,13 @@ public class AllController {
 	    	registrarseBoton.setDisable(true);
 	    	cmbCiudadRegistro.getItems().addAll(listaCiudades);
 	    }
-
+	    /**
+	     * Cuando el evento es activado, obtenemos el Stage de cualquier boton para cerrar la ventana
+	     * @param event -> Evento activado (Click en la X)
+	     */
 	    @FXML
 	    void exit(ActionEvent event) {
 	    	main.close();
-	    }
-	    @FXML
-	    void exit2(ActionEvent event) {
-	    	Stage stg = (Stage) activarUsuarioBoton.getScene().getWindow();
-	    	stg.close();
 	    }
 
 	    @FXML
@@ -343,14 +486,22 @@ public class AllController {
 						|| listaUsuarios.get(i).getCorreo().equals(txtUsuarioCorreoLogin.getText())
 						&& psswdLogin.getText()==listaUsuarios.get(i).getContrasenia()){
 
-					usuarioLoggeado = listaUsuarios.get(i);
+
+					try {
+						usuarioLoggeado = listaUsuarios.get(i);
+						main.setUsuario(usuarioLoggeado);
+						main.changeScene("/view/UsuarioView.fxml");
+						break;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
 
 				}else if(txtUsuarioCorreoLogin.getText().equals("AdminBD") && psswdLogin.getText().equals("123")){
 		    		try {
 						main.changeScene("/view/AdminView.fxml");
 						break;
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 		    	}else{
@@ -359,6 +510,63 @@ public class AllController {
 			}
 
 	    }
+
+		private void llenarVideojuego() {
+			listaVideojuegos = new ArrayList<>();
+			ResultSet rs;
+			PreparedStatement ps;
+			String sql = "select codigo, nombre, descripcion, precio, cantidadvendida, categoria_idcategoria, iddesarrolladora from videojuego";
+
+			try {
+				ps = connection.prepareStatement(sql);
+				rs = ps.executeQuery();
+				while(rs.next()){
+					Videojuego videojuego = new Videojuego(rs.getInt("codigo"), rs.getInt("cantidadvendida"), rs.getInt("categoria_idcategoria"),
+							rs.getInt("iddesarrolladora"), rs.getString("nombre"), rs.getString("descripcion"), rs.getFloat("precio"));
+					listaVideojuegos.add(videojuego);
+				}
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		private void llenarBanco() {
+			listaBancos = new ArrayList<>();
+			ResultSet rs;
+			PreparedStatement ps;
+			String sql = "select idbanco, nombrebanco from banco";
+
+			try {
+				ps = connection.prepareStatement(sql);
+				rs = ps.executeQuery();
+				while(rs.next()){
+					Banco banco = new Banco(rs.getInt("idbanco"), rs.getString("nombrebanco"));
+					listaBancos.add(banco);
+				}
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+		public void llenarBilletera(){
+			listaBilleteras = new ArrayList<>();
+			String sql = "select saldo, numerocuenta, usuario_cedula, banco_idbanco from billetera";
+			ResultSet rs;
+			PreparedStatement ps;
+			try {
+				ps = connection.prepareStatement(sql);
+				 rs = ps.executeQuery();
+				while(rs.next()){
+					Billetera billetera = new Billetera(rs.getInt("saldo"), rs.getInt("usuario_cedula"), rs.getInt("banco_idbanco"), rs.getString("numeroCuenta"));
+					listaBilleteras.add(billetera);
+				}
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 
 		public void setAplicacion(Main main) {
 			this.main = main;
@@ -385,7 +593,6 @@ public class AllController {
 							eliminarUsuarioBoton.setDisable(false);
 						}
 					}
-
 		    	});
 
 
@@ -406,7 +613,6 @@ public class AllController {
 				}
 				ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -466,6 +672,9 @@ public class AllController {
 	    		activarUsuarioBoton.setVisible(true);
 	    	}
 	    }
+		public void setUsuarioLoggeado(Usuario log){
+			usuarioLoggeado = log;
+		}
 
 		private void llenarUsuarios() {
 			listaUsuarios = new ArrayList<>();
@@ -484,7 +693,6 @@ public class AllController {
 				}
 				ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

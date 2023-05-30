@@ -19,6 +19,10 @@ public class Banco {
 		this.idBanco = idBanco;
 		this.nombreBanco = nombreBanco;
 	}
+	@Override
+	public String toString() {
+		return nombreBanco;
+	}
 
 
 }
